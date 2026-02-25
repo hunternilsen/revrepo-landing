@@ -1,0 +1,2718 @@
+<!--
+  ================================================================
+  DOMO PRODUCT PAGE TEMPLATE
+  ================================================================
+  Based on the COMINT landing page — refined through multiple iterations.
+  Source: https://github.com/hunternilsen/comint
+
+  QUICK START:
+  1. Copy this file to your project folder
+  2. Find-and-replace these placeholders:
+     The Quartermaster        — Your app name (e.g. "COMINT", "DataSync")
+     Your central hub for essential tools, resources, and daily info at Domo.    — One-line description (e.g. "Call Review app to score and track sales performance")
+     Essential Tools &amp; Resources for Domo Employees     — Longer tagline for footer (e.g. "Communications Intelligence")
+     1.0.1     — Version number (e.g. "1.0.0")
+     Domo Pro-Code App      — Badge text (e.g. "Domo Pro-Code App")
+  3. Customize the content in each tab section (marked with CUSTOMIZE comments)
+  4. Delete any optional sections you don't need
+
+  TAB STRUCTURE:
+  - Tab 1: Overview    — What it does, why it matters, key features
+  - Tab 2: Get Started — How to use it (workflow + steps + reference material)
+  - Tab 3: How It Works — Technical deep-dive (architecture, data flow, pipeline)
+
+  DESIGN RULES:
+  - Font: Open Sans ONLY (weights: 300, 400, 600, 700, 800)
+  - Primary: Domo Blue #99CCEE
+  - CTAs: Orange #FF9922
+  - Dark bg: #3F454D
+  - NO purple gradients, NO Inter/Roboto, NO pure black (#000)
+
+  COMPONENT CATALOG (available CSS classes):
+  - card-grid + card-h         — 2-column horizontal cards with icons
+  - card-v-grid + card-v       — Auto-fit vertical cards
+  - review-types               — 3-column centered icon cards
+  - compare-table              — Before/After comparison table
+  - stats-row + stat           — Animated counter row
+  - steps + step               — Numbered step-by-step guide
+  - workflow                   — Horizontal flow with arrows
+  - callout                    — Blue left-border info box
+  - stc-list + stc-rubric      — Collapsible accordion cards (with tiers)
+  - pipeline-dark              — Dark bg pipeline with SVG icons + arrows
+  - timeline-v2                — Numbered colored circles + bordered cards + pills
+  - data-flow                  — Dark tiered flow diagram (Write/Sync/Read)
+  - module-grid + module-card  — 2-column module cards with badges
+  - dep-flow                   — Dark dependency injection diagram
+  - tech-categories            — 2x2 categorized tech grid with count badges
+  - code-block                 — Terminal-style code display
+  - domo-stagger               — Add to any container for cascading fade-in animation
+  ================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Quartermaster — Essential Tools &amp; Resources for Domo Employees</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ===================================================================
+       Domo Product Page — Design System
+       Based on Events-template design language (Figma: WBT4snicjrY8eMnf8l9YYK)
+       =================================================================== */
+
+    :root {
+      /* Colors — Backgrounds */
+      --color-bg-white: #FFFFFF;
+      --color-bg-light: #F6F6F6;
+      --color-bg-hero: #3F454D;
+      --color-bg-cta-banner: #99CCEE;
+      --color-bg-button-primary: #FF9922;
+      --color-bg-button-primary-hover: #E8891F;
+
+      /* Colors — Text */
+      --color-text-primary: #3F454D;
+      --color-text-heading: #3F454D;
+      --color-text-secondary: #444444;
+      --color-text-muted: #666666;
+      --color-text-on-dark: #FFFFFF;
+      --color-text-on-dark-secondary: #D4D4D4;
+      --color-text-link: #2F74A3;
+      --color-text-overline: #666666;
+
+      /* Colors — Brand */
+      --domo-blue: #99CCEE;
+      --accent-orange: #FF9922;
+
+      /* Colors — Borders */
+      --color-border-card: #B7C1CB;
+      --color-border-light: #DCE4EA;
+      --color-border-dark: #3F454D;
+      --color-border-input: #444444;
+
+      /* Typography */
+      --font-primary: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+      --space-section: 80px;
+
+      /* Layout */
+      --page-max: 1280px;
+      --content-max: 1152px;
+      --page-padding: 64px;
+
+      /* Border Radius */
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 24px;
+      --radius-pill: 999px;
+
+      /* Transitions */
+      --ease-smooth: cubic-bezier(0.83, 0, 0.17, 1);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      color: var(--color-text-primary);
+      background: var(--color-bg-white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: var(--color-bg-hero);
+      padding: var(--space-section) var(--page-padding) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(153, 204, 238, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(153, 204, 238, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-pill);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-on-dark);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-xl);
+    }
+
+    .hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--domo-blue);
+    }
+
+    .hero-logo {
+      margin-bottom: var(--space-lg);
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 6vw, 4rem);
+      font-weight: 800;
+      color: var(--color-text-on-dark);
+      line-height: 1.1;
+      letter-spacing: -0.8px;
+      margin-bottom: var(--space-md);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.125rem, 2vw, 1.25rem);
+      font-weight: 400;
+      color: var(--color-text-on-dark-secondary);
+      line-height: 1.6;
+      max-width: 640px;
+      margin: 0 auto var(--space-xl);
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-lg);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text-on-dark-secondary);
+    }
+
+    .hero-meta-item svg {
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-2xl);
+    }
+
+    /* ===== TAB NAV ===== */
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      max-width: 640px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: var(--space-md) var(--space-lg);
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.6);
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-family: var(--font-primary);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-smooth);
+    }
+
+    .tab-btn:first-child {
+      border-radius: var(--radius-md) 0 0 0;
+    }
+
+    .tab-btn:last-child {
+      border-radius: 0 var(--radius-md) 0 0;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .tab-btn.active {
+      background: var(--color-bg-white);
+      color: var(--color-text-primary);
+      border-bottom-color: var(--accent-orange);
+    }
+
+    /* ===== TAB CONTENT ===== */
+    .tab-content {
+      display: none;
+      animation: fadeInUp 0.4s var(--ease-out-expo);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: var(--space-section) var(--page-padding);
+    }
+
+    .section-alt {
+      background: var(--color-bg-light);
+    }
+
+    .section-inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .section-header.centered {
+      text-align: center;
+    }
+
+    .section-overline {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-overline);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-xs);
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-weight: 400;
+      color: var(--color-text-heading);
+      line-height: 1.1;
+      letter-spacing: -0.4px;
+    }
+
+    .section-header p {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+      margin-top: var(--space-md);
+      max-width: 600px;
+    }
+
+    .section-header.centered p {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--accent-orange);
+      color: var(--color-text-primary);
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-primary);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 21px;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-smooth);
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-bg-button-primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: transparent;
+      color: var(--color-text-on-dark);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: var(--radius-md);
+      font-family: var(--font-primary);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 21px;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-smooth);
+      text-decoration: none;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-outline-dark {
+      color: var(--color-text-primary);
+      border-color: var(--color-border-dark);
+    }
+
+    .btn-outline-dark:hover {
+      border-color: var(--domo-blue);
+      color: var(--color-text-link);
+      background: transparent;
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: var(--space-sm);
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--color-text-link);
+      font-family: var(--font-primary);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-link);
+      cursor: pointer;
+      transition: all 0.3s var(--ease-smooth);
+      text-decoration: none;
+    }
+
+    .btn-link:hover {
+      opacity: 0.8;
+    }
+
+    .btn-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ===== CARDS — Horizontal (Figma "Card Basic") ===== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .card-h {
+      display: flex;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      background: var(--color-bg-white);
+      border: 1px solid var(--color-border-card);
+      border-radius: var(--radius-md);
+      transition: border-color 0.3s var(--ease-smooth);
+    }
+
+    .card-h:hover {
+      border-color: var(--domo-blue);
+    }
+
+    .card-h-icon {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .card-h-body h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      line-height: 1.3;
+      margin-bottom: var(--space-xs);
+    }
+
+    .card-h-body p {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== CARDS — Vertical ===== */
+    .card-v-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-lg);
+    }
+
+    .card-v {
+      padding: var(--space-lg);
+      background: var(--color-bg-white);
+      border: 1px solid var(--color-border-card);
+      border-radius: var(--radius-md);
+      transition: border-color 0.3s var(--ease-smooth);
+    }
+
+    .card-v:hover {
+      border-color: var(--domo-blue);
+    }
+
+    .card-v-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: rgba(153, 204, 238, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .card-v h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      margin-bottom: var(--space-xs);
+    }
+
+    .card-v p {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== STATS ROW ===== */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-3xl);
+      flex-wrap: wrap;
+      padding: var(--space-xl) 0;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--domo-blue);
+      line-height: 1;
+      margin-bottom: var(--space-sm);
+    }
+
+    .stat-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    /* ===== REVIEW TYPES ===== */
+    .review-types {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .review-type {
+      padding: var(--space-xl);
+      background: var(--color-bg-white);
+      border: 1px solid var(--color-border-card);
+      border-radius: var(--radius-md);
+      text-align: center;
+      transition: border-color 0.3s var(--ease-smooth);
+    }
+
+    .review-type:hover {
+      border-color: var(--domo-blue);
+    }
+
+    .review-type-icon {
+      font-size: 2rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .review-type h4 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      margin-bottom: var(--space-sm);
+    }
+
+    .review-type p {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== AGENDA / TABLE ===== */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .compare-table thead th {
+      padding: var(--space-md) var(--space-lg);
+      text-align: left;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--color-border-dark);
+    }
+
+    .compare-table tbody td {
+      padding: var(--space-md) var(--space-lg);
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      border-bottom: 1px solid var(--color-border-card);
+      line-height: 1.5;
+    }
+
+    .compare-table .check {
+      color: #16a34a;
+      font-weight: 600;
+    }
+
+    .compare-table .cross {
+      color: var(--color-text-muted);
+    }
+
+    /* ===== STEPS ===== */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .step {
+      display: flex;
+      gap: var(--space-lg);
+      align-items: flex-start;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--domo-blue);
+      color: var(--color-bg-white);
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-content h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      margin-bottom: var(--space-xs);
+    }
+
+    .step-content p {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== WORKFLOW ===== */
+    .workflow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      padding: var(--space-xl) 0;
+    }
+
+    .workflow-step {
+      padding: var(--space-md) var(--space-lg);
+      background: var(--color-bg-white);
+      border: 1px solid var(--color-border-card);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .workflow-step small {
+      display: block;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .workflow-arrow {
+      color: var(--color-border-card);
+      font-size: 1.25rem;
+    }
+
+    /* ===== CALLOUT ===== */
+    .callout {
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-card);
+      border-left: 3px solid var(--domo-blue);
+      background: var(--color-bg-white);
+      margin-top: var(--space-xl);
+    }
+
+    .callout h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      margin-bottom: var(--space-xs);
+    }
+
+    .callout p {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== STC RUBRIC CARDS ===== */
+    .stc-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+
+    .stc-rubric {
+      background: var(--color-bg-white);
+      border: 1px solid var(--color-border-card);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.3s var(--ease-smooth);
+    }
+
+    .stc-rubric:hover {
+      border-color: var(--domo-blue);
+    }
+
+    .stc-rubric-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-lg);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .stc-rubric-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--domo-blue);
+      color: var(--color-bg-white);
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stc-rubric-title {
+      flex: 1;
+    }
+
+    .stc-rubric-title h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      line-height: 1.3;
+    }
+
+    .stc-rubric-title p {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+
+    .stc-rubric-toggle {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      color: var(--color-text-muted);
+      transition: transform 0.3s var(--ease-smooth);
+    }
+
+    .stc-rubric.open .stc-rubric-toggle {
+      transform: rotate(180deg);
+    }
+
+    .stc-rubric-body {
+      display: none;
+      padding: 0 var(--space-lg) var(--space-lg);
+    }
+
+    .stc-rubric.open .stc-rubric-body {
+      display: block;
+    }
+
+    .stc-tiers {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .stc-tier {
+      display: flex;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid transparent;
+    }
+
+    .stc-tier.high {
+      background: rgba(20, 184, 166, 0.06);
+      border-left-color: #14B8A6;
+    }
+
+    .stc-tier.mid {
+      background: rgba(245, 158, 11, 0.06);
+      border-left-color: #F59E0B;
+    }
+
+    .stc-tier.low {
+      background: rgba(220, 38, 38, 0.06);
+      border-left-color: #DC2626;
+    }
+
+    .stc-tier-badge {
+      flex-shrink: 0;
+      width: 48px;
+      text-align: center;
+    }
+
+    .stc-tier-score {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .stc-tier.high .stc-tier-score {
+      color: #14B8A6;
+    }
+
+    .stc-tier.mid .stc-tier-score {
+      color: #F59E0B;
+    }
+
+    .stc-tier.low .stc-tier-score {
+      color: #DC2626;
+    }
+
+    .stc-tier-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .stc-tier-content p {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      margin-bottom: var(--space-xs);
+    }
+
+    .stc-tier-example {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      font-style: italic;
+      line-height: 1.4;
+      padding-left: var(--space-md);
+      border-left: 1px solid var(--color-border-light);
+    }
+
+    /* ===== HOW IT'S MADE — HERO STAT ===== */
+    .build-hero {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2xl);
+      padding: var(--space-xl);
+      background: var(--color-bg-hero);
+      border-radius: var(--radius-md);
+      color: var(--color-text-on-dark);
+    }
+
+    .build-hero-text {
+      flex: 1;
+    }
+
+    .build-hero-text h3 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--color-text-on-dark);
+      line-height: 1.2;
+      margin-bottom: var(--space-sm);
+    }
+
+    .build-hero-text p {
+      font-size: 16px;
+      color: var(--color-text-on-dark-secondary);
+      line-height: 1.6;
+    }
+
+    .build-hero-stats {
+      display: flex;
+      gap: var(--space-xl);
+      flex-shrink: 0;
+    }
+
+    .build-hero-stat {
+      text-align: center;
+    }
+
+    .build-hero-stat .stat-value {
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--domo-blue);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .build-hero-stat .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-on-dark-secondary);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    /* ===== TECH STACK PILLS ===== */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .tech-pill {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg);
+      background: var(--color-bg-white);
+      border: 1px solid var(--color-border-card);
+      border-radius: var(--radius-md);
+      transition: border-color 0.3s var(--ease-smooth);
+    }
+
+    .tech-pill:hover {
+      border-color: var(--domo-blue);
+    }
+
+    .tech-pill-icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: rgba(153, 204, 238, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.125rem;
+    }
+
+    .tech-pill-text h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      line-height: 1.3;
+    }
+
+    .tech-pill-text p {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      line-height: 1.3;
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline {
+      position: relative;
+      padding-left: var(--space-2xl);
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--color-border-card);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: var(--space-xl);
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: calc(-1 * var(--space-2xl) + 6px);
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--domo-blue);
+      border: 2px solid var(--color-bg-white);
+      z-index: 1;
+    }
+
+    .timeline-item h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      margin-bottom: 2px;
+    }
+
+    .timeline-item .timeline-meta {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--domo-blue);
+      margin-bottom: var(--space-xs);
+    }
+
+    .timeline-item p {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== CODE BLOCK ===== */
+    .code-block {
+      background: var(--color-bg-hero);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      overflow-x: auto;
+    }
+
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .code-block-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .code-block-dot:nth-child(1) { background: #FF5F57; }
+    .code-block-dot:nth-child(2) { background: #FEBC2E; }
+    .code-block-dot:nth-child(3) { background: #28C840; }
+
+    .code-block-title {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-left: var(--space-sm);
+      font-family: 'SF Mono', SFMono-Regular, Menlo, monospace;
+    }
+
+    .code-block pre {
+      font-family: 'SF Mono', SFMono-Regular, Menlo, monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.85);
+      white-space: pre;
+      margin: 0;
+    }
+
+    .code-block .code-comment {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .code-block .code-keyword {
+      color: #99CCEE;
+    }
+
+    .code-block .code-string {
+      color: #A5D6A7;
+    }
+
+    .code-block .code-fn {
+      color: #FFD54F;
+    }
+
+    /* ===== PIPELINE FLOW ===== */
+    .pipeline {
+      display: flex;
+      align-items: stretch;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .pipeline-stage {
+      flex: 1;
+      min-width: 160px;
+      padding: var(--space-lg);
+      background: var(--color-bg-white);
+      border: 1px solid var(--color-border-card);
+      border-radius: var(--radius-md);
+      text-align: center;
+      transition: border-color 0.3s var(--ease-smooth);
+    }
+
+    .pipeline-stage:hover {
+      border-color: var(--domo-blue);
+    }
+
+    .pipeline-stage-icon {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .pipeline-stage h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      margin-bottom: 4px;
+    }
+
+    .pipeline-stage p {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+
+    .pipeline-arrow {
+      display: flex;
+      align-items: center;
+      color: var(--color-border-card);
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    /* ===== DARK PIPELINE (KG-inspired) ===== */
+    .pipeline-dark {
+      background: var(--color-bg-hero);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl) var(--space-xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pipeline-dark .pipeline {
+      flex-wrap: nowrap;
+      align-items: flex-start;
+    }
+
+    .pipeline-dark .pipeline-stage {
+      background: transparent;
+      border: none;
+      min-width: 120px;
+      padding: var(--space-md);
+    }
+
+    .pipeline-dark .pipeline-stage:hover {
+      border-color: transparent;
+    }
+
+    .pipeline-dark .pipeline-stage h4 {
+      color: var(--color-text-on-dark);
+    }
+
+    .pipeline-dark .pipeline-stage p {
+      color: var(--color-text-on-dark-secondary);
+    }
+
+    .pipeline-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-sm);
+    }
+
+    .pipeline-icon-box svg {
+      width: 24px;
+      height: 24px;
+      color: var(--color-bg-white);
+    }
+
+    .pipeline-icon-box.blue { background: var(--domo-blue); }
+    .pipeline-icon-box.orange { background: var(--accent-orange); }
+    .pipeline-icon-box.teal { background: #14B8A6; }
+    .pipeline-icon-box.amber { background: #F59E0B; }
+    .pipeline-icon-box.slate { background: #64748B; }
+
+    .pipeline-connector {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      padding-top: var(--space-lg);
+    }
+
+    .pipeline-connector svg {
+      width: 32px;
+      height: 12px;
+    }
+
+    .pipeline-callout {
+      position: absolute;
+      bottom: var(--space-lg);
+      right: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-on-dark-secondary);
+    }
+
+    .pipeline-callout svg {
+      width: 18px;
+      height: 18px;
+      color: var(--domo-blue);
+    }
+
+    /* ===== TIMELINE V2 (numbered, colored) ===== */
+    .timeline-v2 {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .timeline-v2::before {
+      content: '';
+      position: absolute;
+      left: 27px;
+      top: 28px;
+      bottom: 28px;
+      width: 2px;
+      background: var(--color-border-card);
+      z-index: 0;
+    }
+
+    .timeline-v2-item {
+      display: flex;
+      gap: var(--space-lg);
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .timeline-v2-num {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--color-bg-white);
+    }
+
+    .timeline-v2-num.blue { background: var(--domo-blue); }
+    .timeline-v2-num.orange { background: var(--accent-orange); }
+    .timeline-v2-num.amber { background: #F59E0B; }
+
+    .timeline-v2-card {
+      flex: 1;
+      padding: var(--space-lg);
+      background: var(--color-bg-white);
+      border: 1px solid var(--color-border-card);
+      border-radius: var(--radius-md);
+      transition: border-color 0.3s var(--ease-smooth);
+    }
+
+    .timeline-v2-card:hover {
+      border-color: var(--domo-blue);
+    }
+
+    .timeline-v2-card h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      margin-bottom: var(--space-xs);
+    }
+
+    .timeline-v2-card p {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .timeline-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--color-border-light);
+    }
+
+    .timeline-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 10px;
+      background: rgba(153, 204, 238, 0.12);
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-link);
+      white-space: nowrap;
+    }
+
+    /* ===== DATA FLOW DIAGRAM (dark) ===== */
+    .data-flow {
+      background: var(--color-bg-hero);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+    }
+
+    .data-flow-tiers {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+
+    .data-flow-tier {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .data-flow-tier-label {
+      flex-shrink: 0;
+      width: 80px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      text-align: right;
+      padding-right: var(--space-md);
+      border-right: 2px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .data-flow-tier-label.write { color: var(--accent-orange); }
+    .data-flow-tier-label.sync { color: var(--domo-blue); }
+    .data-flow-tier-label.read { color: #14B8A6; }
+
+    .data-flow-nodes {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      flex: 1;
+    }
+
+    .data-flow-node {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-on-dark);
+      white-space: nowrap;
+    }
+
+    .data-flow-node small {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--color-text-on-dark-secondary);
+      margin-top: 1px;
+    }
+
+    .data-flow-node-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .data-flow-node-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .data-flow-node-icon.orange { background: rgba(255, 153, 34, 0.2); color: var(--accent-orange); }
+    .data-flow-node-icon.blue { background: rgba(153, 204, 238, 0.2); color: var(--domo-blue); }
+    .data-flow-node-icon.teal { background: rgba(20, 184, 166, 0.2); color: #14B8A6; }
+
+    .data-flow-arrow svg {
+      width: 24px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+
+    .data-flow-v-arrow {
+      display: flex;
+      justify-content: center;
+      padding-left: 96px;
+    }
+
+    .data-flow-v-arrow svg {
+      width: 12px;
+      height: 24px;
+    }
+
+    .data-flow-branch {
+      display: flex;
+      gap: var(--space-md);
+      flex: 1;
+    }
+
+    .data-flow-metrics {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-2xl);
+      margin-top: var(--space-xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .data-flow-metric {
+      text-align: center;
+    }
+
+    .data-flow-metric-value {
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--domo-blue);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .data-flow-metric-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-on-dark-secondary);
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    /* ===== MODULE GRID ===== */
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-sm);
+    }
+
+    .module-card {
+      padding: var(--space-md);
+      background: var(--color-bg-white);
+      border: 1px solid var(--color-border-card);
+      border-radius: var(--radius-md);
+      transition: border-color 0.3s var(--ease-smooth);
+    }
+
+    .module-card:hover {
+      border-color: var(--domo-blue);
+    }
+
+    .module-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-xs);
+    }
+
+    .module-card-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-heading);
+      font-family: 'SF Mono', SFMono-Regular, Menlo, monospace;
+    }
+
+    .module-card-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(153, 204, 238, 0.15);
+      color: var(--color-text-link);
+      white-space: nowrap;
+    }
+
+    .module-card-desc {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+
+    .dep-flow {
+      background: var(--color-bg-hero);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .dep-flow-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-on-dark);
+      margin-bottom: var(--space-md);
+      text-align: center;
+    }
+
+    .dep-flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-sm);
+    }
+
+    .dep-flow-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .dep-flow-node {
+      padding: var(--space-xs) var(--space-md);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-on-dark);
+      font-family: 'SF Mono', SFMono-Regular, Menlo, monospace;
+    }
+
+    .dep-flow-node.orchestrator {
+      border-color: var(--accent-orange);
+      color: var(--accent-orange);
+    }
+
+    .dep-flow-arrow {
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 1rem;
+    }
+
+    /* ===== CATEGORIZED TECH STACK ===== */
+    .tech-categories {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xl);
+    }
+
+    .tech-category-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .tech-category-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text-heading);
+      letter-spacing: 0.4px;
+    }
+
+    .tech-category-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .tech-category-count.blue { background: rgba(153, 204, 238, 0.2); color: var(--color-text-link); }
+    .tech-category-count.orange { background: rgba(255, 153, 34, 0.2); color: #E8891F; }
+    .tech-category-count.teal { background: rgba(20, 184, 166, 0.2); color: #14B8A6; }
+    .tech-category-count.amber { background: rgba(245, 158, 11, 0.2); color: #D97706; }
+
+    .tech-category-items {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    /* ===== CTA BANNER ===== */
+    .cta-banner {
+      padding: var(--space-2xl) var(--page-padding);
+    }
+
+    .cta-banner-inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      background: var(--domo-blue);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl) var(--space-xl);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xl);
+    }
+
+    .cta-banner-text h3 {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-weight: 600;
+      color: var(--color-text-heading);
+      margin-bottom: var(--space-sm);
+    }
+
+    .cta-banner-text p {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+    }
+
+    .cta-banner-actions {
+      display: flex;
+      gap: var(--space-md);
+      flex-shrink: 0;
+    }
+
+    .cta-banner .btn-outline-dark {
+      border-color: var(--color-border-dark);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--color-bg-hero);
+      padding: var(--space-xl) var(--page-padding);
+      text-align: center;
+    }
+
+    .footer p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer strong {
+      color: var(--color-text-on-dark);
+      font-weight: 600;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(1.5rem);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .domo-stagger>* {
+      opacity: 0;
+      animation: fadeInUp 0.5s var(--ease-out-expo) forwards;
+    }
+
+    .domo-stagger>*:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .domo-stagger>*:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .domo-stagger>*:nth-child(3) {
+      animation-delay: 0.15s;
+    }
+
+    .domo-stagger>*:nth-child(4) {
+      animation-delay: 0.2s;
+    }
+
+    .domo-stagger>*:nth-child(5) {
+      animation-delay: 0.25s;
+    }
+
+    .domo-stagger>*:nth-child(6) {
+      animation-delay: 0.3s;
+    }
+
+    .domo-stagger>*:nth-child(7) {
+      animation-delay: 0.35s;
+    }
+
+    .domo-stagger>*:nth-child(8) {
+      animation-delay: 0.4s;
+    }
+
+    .domo-stagger>*:nth-child(9) {
+      animation-delay: 0.45s;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+      :root {
+        --page-padding: 32px;
+        --space-section: 64px;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stc-tier {
+        flex-direction: column;
+        gap: var(--space-sm);
+      }
+
+      .build-hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .build-hero-stats {
+        justify-content: center;
+      }
+
+      .pipeline {
+        flex-direction: column;
+      }
+
+      .pipeline-arrow {
+        justify-content: center;
+        transform: rotate(90deg);
+      }
+
+      .pipeline-dark .pipeline {
+        flex-wrap: wrap;
+      }
+
+      .pipeline-connector {
+        padding-top: 0;
+        transform: rotate(90deg);
+      }
+
+      .pipeline-callout {
+        position: static;
+        justify-content: center;
+        margin-top: var(--space-lg);
+      }
+
+      .data-flow-tier {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .data-flow-tier-label {
+        width: auto;
+        text-align: left;
+        border-right: none;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+        padding-right: 0;
+        padding-bottom: var(--space-xs);
+        margin-bottom: var(--space-xs);
+      }
+
+      .data-flow-nodes {
+        flex-wrap: wrap;
+      }
+
+      .data-flow-v-arrow {
+        padding-left: 0;
+      }
+
+      .data-flow-branch {
+        flex-direction: column;
+      }
+
+      .module-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tech-categories {
+        grid-template-columns: 1fr;
+      }
+
+      .dep-flow-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cta-banner-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --page-padding: 24px;
+        --space-section: 48px;
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+
+      .hero-meta {
+        flex-direction: column;
+        gap: var(--space-md);
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-buttons .btn-primary,
+      .hero-buttons .btn-outline {
+        justify-content: center;
+      }
+
+      .tab-btn {
+        font-size: 12px;
+        padding: var(--space-sm) var(--space-md);
+        letter-spacing: 0.4px;
+      }
+
+      .stats-row {
+        gap: var(--space-xl);
+      }
+
+      .review-types {
+        grid-template-columns: 1fr;
+      }
+
+      .stc-rubric-header {
+        flex-wrap: wrap;
+      }
+
+      .build-hero-stats {
+        flex-wrap: wrap;
+        gap: var(--space-lg);
+      }
+
+      .tech-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-v2::before {
+        left: 21px;
+      }
+
+      .timeline-v2-num {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+      }
+
+      .data-flow-metrics {
+        flex-wrap: wrap;
+        gap: var(--space-lg);
+      }
+
+      .workflow {
+        flex-direction: column;
+      }
+
+      .workflow-arrow {
+        transform: rotate(90deg);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tab-nav {
+        flex-direction: column;
+      }
+
+      .tab-btn:first-child {
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+      }
+
+      .tab-btn:last-child {
+        border-radius: 0;
+      }
+    }
+
+    /* ===== ACCESSIBILITY ===== */
+    *:focus-visible {
+      outline: 2px solid var(--domo-blue);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="64" height="64">
+          <path fill="#99CCEE"
+            d="M150.5,328.6c12.4,13.8,21.2,30.9,25,49.8,9.9-48.8,53-85.5,104.7-85.5s94.8,36.8,104.7,85.6v-85.6l106.8,106.8,107.1-106.8v85.6c9.9-48.8,53-85.6,104.7-85.6s79.2,24.8,96.4,60.7V0H0v292.9h70.8c31.7,0,60.1,13.8,79.7,35.7Z" />
+          <path fill="#99CCEE"
+            d="M703.6,506.6c-51.7,0-94.8-36.8-104.7-85.6v85.6h-36v-127.8l-71.1,71.4-71.4-71.4v127.8h-35.4v-85.6c-9.9,48.8-53,85.6-104.7,85.6s-94.8-36.7-104.7-85.5c-3.8,18.9-12.6,36-25,49.8-19.6,21.9-48,35.7-79.7,35.7H0v293.4h800v-354.2c-17.2,35.9-53.9,60.7-96.4,60.7h0Z" />
+          <path fill="#99CCEE"
+            d="M280.2,471c39.4,0,71.3-31.9,71.3-71.3s-31.9-71.3-71.3-71.3-71.3,31.9-71.3,71.3,31.9,71.3,71.3,71.3Z" />
+          <path fill="#99CCEE"
+            d="M142.1,399.7c0-37.8-29.4-68.7-66.6-71.1h-40.1v142.2h40.1c37.2-2.4,66.6-33.3,66.6-71.1h0Z" />
+          <path fill="#99CCEE"
+            d="M703.6,471c39.4,0,71.3-31.9,71.3-71.3s-31.9-71.3-71.3-71.3-71.3,31.9-71.3,71.3,31.9,71.3,71.3,71.3Z" />
+          <path fill="#FFF"
+            d="M150.5,470.8c12.4-13.8,21.2-30.9,25-49.8,9.9,48.8,53,85.5,104.7,85.5s94.8-36.8,104.7-85.6v85.6h35.4v-127.8l71.4,71.4,71.1-71.4v127.8h36v-85.6c9.9,48.8,53,85.6,104.7,85.6s79.2-24.8,96.4-60.7v-92.2c-17.2-35.9-53.9-60.7-96.4-60.7s-94.8,36.8-104.7,85.6v-85.6l-107.1,106.8-106.8-106.8v85.6c-9.9-48.8-53-85.6-104.7-85.6s-94.8,36.7-104.7,85.5c-3.8-18.9-12.6-36-25-49.8-19.6-21.9-48-35.7-79.7-35.7H0v213.7h70.8c31.7,0,60.1-13.8,79.7-35.7h0ZM703.6,328.5c39.4,0,71.3,31.9,71.3,71.3s-31.9,71.3-71.3,71.3-71.3-31.9-71.3-71.3,31.9-71.3,71.3-71.3ZM280.2,328.5c39.4,0,71.3,31.9,71.3,71.3s-31.9,71.3-71.3,71.3-71.3-31.9-71.3-71.3,31.9-71.3,71.3-71.3ZM35.4,328.6h40.1c37.2,2.4,66.6,33.3,66.6,71.1s-29.4,68.7-66.6,71.1h-40.1v-142.2h0Z" />
+        </svg>
+      </div>
+
+      <span class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Domo Pro-Code App
+      </span>
+
+      <h1>The Quartermaster</h1>
+      <p class="hero-subtitle">Your central hub for essential tools, resources, and daily info at Domo.</p>
+
+      <!-- Tab Navigation -->
+      <nav class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('overview')" aria-selected="true">Overview</button>
+        <button class="tab-btn" onclick="switchTab('onboarding')" aria-selected="false">Get Started</button>
+        <button class="tab-btn" onclick="switchTab('making')" aria-selected="false">How It Works</button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TAB 1: OVERVIEW                                                       -->
+  <!-- ===================================================================== -->
+  <div id="tab-overview" class="tab-content active">
+
+    <!-- Why Section — 6 value prop cards -->
+    <section class="section section-alt">
+      <div class="section-inner">
+        <div class="section-header centered">
+          <span class="section-overline">Overview</span>
+          <h2>Why The Quartermaster?</h2>
+          <p>Stop juggling bookmarks and tracking down teammates for access info — everything you need is one tab away.</p>
+        </div>
+        <div class="card-grid domo-stagger">
+          <div class="card-h">
+            <div class="card-h-icon">&#128279;</div>
+            <div class="card-h-body">
+              <h3>One-Stop Hub</h3>
+              <p>Every mandatory external tool in a single, organized catalog — no more scattered bookmarks or Slack messages asking for links.</p>
+            </div>
+          </div>
+          <div class="card-h">
+            <div class="card-h-icon">&#128203;</div>
+            <div class="card-h-body">
+              <h3>Access Made Easy</h3>
+              <p>Each tool card includes exactly how to request access or where to find it — no guesswork, no asking around.</p>
+            </div>
+          </div>
+          <div class="card-h">
+            <div class="card-h-icon">&#127869;</div>
+            <div class="card-h-body">
+              <h3>Daily Lunch Menu</h3>
+              <p>Check today&rsquo;s lunch menu without leaving Domo. Fetched live from a dataset so it&rsquo;s always current.</p>
+            </div>
+          </div>
+          <div class="card-h">
+            <div class="card-h-icon">&#128100;</div>
+            <div class="card-h-body">
+              <h3>Personalized Welcome</h3>
+              <p>Your name appears on load via the Domo User API — a small detail that makes the app feel like yours.</p>
+            </div>
+          </div>
+          <div class="card-h">
+            <div class="card-h-icon">&#9989;</div>
+            <div class="card-h-body">
+              <h3>Onboarding Checklist</h3>
+              <p>A built-in session checklist helps new team members get up and running — always visible, never in the way.</p>
+            </div>
+          </div>
+          <div class="card-h">
+            <div class="card-h-icon">&#9889;</div>
+            <div class="card-h-body">
+              <h3>Built on Domo</h3>
+              <p>Runs natively in the Domo platform with no external infrastructure. Zero setup for end users — just open and go.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature Highlights — 3-column centered cards -->
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-header centered">
+          <span class="section-overline">Features</span>
+          <h2>What&rsquo;s Inside</h2>
+          <p>Three core areas cover everything a Domo employee needs on a daily basis.</p>
+        </div>
+        <div class="review-types domo-stagger">
+          <div class="review-type">
+            <div class="review-type-icon">&#128295;</div>
+            <h4>External Tools</h4>
+            <p>7 mandatory tools — Salesforce, Apollo.io, Gong, Slack, and more — with direct links and access instructions in two display modes.</p>
+          </div>
+          <div class="review-type">
+            <div class="review-type-icon">&#128218;</div>
+            <h4>Help &amp; Resources</h4>
+            <p>Quick links to Domo Nation, Domo University, internal wikis, and support channels — all in one organized section.</p>
+          </div>
+          <div class="review-type">
+            <div class="review-type-icon">&#127869;</div>
+            <h4>Live Lunch Menu</h4>
+            <p>Today&rsquo;s menu fetched from a Domo dataset, grouped by category with icons, and updated automatically each day.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Before/After comparison table -->
+    <section class="section section-alt">
+      <div class="section-inner">
+        <div class="section-header centered">
+          <span class="section-overline">Impact</span>
+          <h2>Before &amp; After</h2>
+        </div>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Situation</th>
+              <th>Before</th>
+              <th>After</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Finding tool links</td>
+              <td class="cross">Scattered bookmarks and Slack threads</td>
+              <td class="check">Centralized catalog in Domo with one click</td>
+            </tr>
+            <tr>
+              <td>Requesting access</td>
+              <td class="cross">Ask a teammate, wait for a reply</td>
+              <td class="check">Step-by-step instructions on every tool card</td>
+            </tr>
+            <tr>
+              <td>Lunch planning</td>
+              <td class="cross">Check Slack, email, or the cafeteria board</td>
+              <td class="check">Live daily menu in-app, always up to date</td>
+            </tr>
+            <tr>
+              <td>New employee onboarding</td>
+              <td class="cross">Word of mouth and tribal knowledge</td>
+              <td class="check">Built-in guided checklist, no separate doc needed</td>
+            </tr>
+            <tr>
+              <td>Daily routine</td>
+              <td class="cross">Switching between multiple apps and tabs</td>
+              <td class="check">One Domo hub covers tools, resources, and lunch</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TAB 2: ONBOARDING                                                     -->
+  <!-- ===================================================================== -->
+  <div id="tab-onboarding" class="tab-content">
+
+    <!-- How It Works — workflow visual + numbered steps -->
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-header centered">
+          <span class="section-overline">Guide</span>
+          <h2>How The Quartermaster Works</h2>
+          <p>Everything you need in three tabs — tools, resources, and lunch. Here&rsquo;s how to get the most out of it.</p>
+        </div>
+
+        <div class="workflow domo-stagger" style="margin-bottom: var(--space-2xl);">
+          <div class="workflow-step">Open the App<small>in Domo</small></div>
+          <span class="workflow-arrow">&#8594;</span>
+          <div class="workflow-step">Browse Tools<small>Tools tab</small></div>
+          <span class="workflow-arrow">&#8594;</span>
+          <div class="workflow-step">Get Access Info<small>click the (i) icon</small></div>
+          <span class="workflow-arrow">&#8594;</span>
+          <div class="workflow-step">Check Lunch<small>Lunch tab</small></div>
+          <span class="workflow-arrow">&#8594;</span>
+          <div class="workflow-step">Track Progress<small>onboarding checklist</small></div>
+        </div>
+        <div class="steps domo-stagger">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>Open the App in Domo</h3>
+              <p>Find The Quartermaster on your Domo page. Your name loads automatically in the top-right corner via the Domo User API — no login, no configuration needed.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>Browse the Tools Catalog</h3>
+              <p>The Tools tab lists all mandatory external tools — Salesforce, Apollo.io, Gong, Slack, and more. Each card shows the tool name, description, and a direct &ldquo;Visit Tool&rdquo; link. Click any card to open the tool.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>Get Access Info Two Ways</h3>
+              <p>Click the <strong>(i)</strong> icon on any tool card to see how to request access. Toggle between <strong>Tooltip mode</strong> (floating overlay) and <strong>Expandable mode</strong> (inline card expansion) using the buttons in the header.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h3>Check Today&rsquo;s Lunch</h3>
+              <p>Switch to the Lunch tab to see the daily cafeteria menu, fetched live from a Domo dataset. Items are grouped by category (Main Course, Side Dish, Dessert, etc.) with icons for quick scanning.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <h3>Track Onboarding Progress</h3>
+              <p>A checklist popup (bottom-right corner) tracks key setup tasks for new team members. It starts minimized — click the button to expand it. State persists for the current session.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool Reference — collapsible accordion cards -->
+    <section class="section section-alt">
+      <div class="section-inner">
+        <div class="section-header centered">
+          <span class="section-overline">Tool Reference</span>
+          <h2>The Tools Catalog</h2>
+          <p>7 mandatory external tools. Click any tool to see its purpose and how to request access.</p>
+        </div>
+
+        <div class="callout" style="margin-top: 0; margin-bottom: var(--space-xl);">
+          <h4>Two Ways to View Access Info</h4>
+          <p>In the app, toggle between <strong>Tooltip mode</strong> (hover overlay) and <strong>Expandable mode</strong> (inline card expansion) using the buttons in the app header. Both modes show the same access instructions.</p>
+        </div>
+
+        <div class="stc-list domo-stagger">
+
+          <div class="stc-rubric">
+            <div class="stc-rubric-header" onclick="this.parentElement.classList.toggle('open')">
+              <div class="stc-rubric-num">1</div>
+              <div class="stc-rubric-title"><h3>Salesforce</h3><p>CRM platform for managing leads, opportunities, and customer accounts.</p></div>
+              <svg class="stc-rubric-toggle" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <div class="stc-rubric-body">
+              <p><strong>Access:</strong> Submit a request through IT via the internal help desk. Your manager will need to approve the license type based on your role.</p>
+            </div>
+          </div>
+
+          <div class="stc-rubric">
+            <div class="stc-rubric-header" onclick="this.parentElement.classList.toggle('open')">
+              <div class="stc-rubric-num">2</div>
+              <div class="stc-rubric-title"><h3>Apollo.io</h3><p>Prospecting and outreach platform for finding and contacting leads.</p></div>
+              <svg class="stc-rubric-toggle" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <div class="stc-rubric-body">
+              <p><strong>Access:</strong> Contact your manager or Sales Ops to be added to the team account. Seats are limited by license tier.</p>
+            </div>
+          </div>
+
+          <div class="stc-rubric">
+            <div class="stc-rubric-header" onclick="this.parentElement.classList.toggle('open')">
+              <div class="stc-rubric-num">3</div>
+              <div class="stc-rubric-title"><h3>Gong</h3><p>Call recording, transcription, and conversation intelligence platform.</p></div>
+              <svg class="stc-rubric-toggle" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <div class="stc-rubric-body">
+              <p><strong>Access:</strong> Provisioned automatically for customer-facing roles. Request access through your manager for non-standard seats. Login via Okta SSO.</p>
+            </div>
+          </div>
+
+          <div class="stc-rubric">
+            <div class="stc-rubric-header" onclick="this.parentElement.classList.toggle('open')">
+              <div class="stc-rubric-num">4</div>
+              <div class="stc-rubric-title"><h3>Slack</h3><p>Team messaging and collaboration hub for all internal communications.</p></div>
+              <svg class="stc-rubric-toggle" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <div class="stc-rubric-body">
+              <p><strong>Access:</strong> Invite sent automatically on first day. If you didn&rsquo;t receive it, contact IT or ask a teammate to send you a workspace invite.</p>
+            </div>
+          </div>
+
+          <div class="stc-rubric">
+            <div class="stc-rubric-header" onclick="this.parentElement.classList.toggle('open')">
+              <div class="stc-rubric-num">5</div>
+              <div class="stc-rubric-title"><h3>ModoCorp</h3><p>Mobile device management (MDM) platform for company-managed devices.</p></div>
+              <svg class="stc-rubric-toggle" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <div class="stc-rubric-body">
+              <p><strong>Access:</strong> IT provisions MDM enrollment as part of device setup. If your device isn&rsquo;t enrolled, submit an IT ticket with your device serial number.</p>
+            </div>
+          </div>
+
+          <div class="stc-rubric">
+            <div class="stc-rubric-header" onclick="this.parentElement.classList.toggle('open')">
+              <div class="stc-rubric-num">6</div>
+              <div class="stc-rubric-title"><h3>Consensus</h3><p>Interactive demo automation platform for sharing personalized product demos.</p></div>
+              <svg class="stc-rubric-toggle" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <div class="stc-rubric-body">
+              <p><strong>Access:</strong> Available to Sales and SE roles. Request a seat through Sales Enablement or your manager.</p>
+            </div>
+          </div>
+
+          <div class="stc-rubric">
+            <div class="stc-rubric-header" onclick="this.parentElement.classList.toggle('open')">
+              <div class="stc-rubric-num">7</div>
+              <div class="stc-rubric-title"><h3>LetterAI</h3><p>AI-powered proposal and document generation for sales outreach.</p></div>
+              <svg class="stc-rubric-toggle" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <div class="stc-rubric-body">
+              <p><strong>Access:</strong> Contact Sales Ops or your manager to be added to the team workspace. Sign in with your Domo email via SSO.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TAB 3: HOW IT WORKS                                                 -->
+  <!-- ===================================================================== -->
+  <div id="tab-making" class="tab-content">
+
+    <!-- Stats Row — animated counters -->
+    <section class="section">
+      <div class="section-inner">
+        <div class="stats-row domo-stagger">
+          <div class="stat">
+            <div class="stat-value" data-value="7">7</div>
+            <div class="stat-label">External Tools</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" data-value="2">2</div>
+            <div class="stat-label">Access Modes</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" data-value="3">3</div>
+            <div class="stat-label">App Tabs</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" data-value="2">2</div>
+            <div class="stat-label">Files (index.html + app.js)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platform Cards — 4 horizontal cards with SVG icons -->
+    <section class="section section-alt">
+      <div class="section-inner">
+        <div class="section-header centered">
+          <span class="section-overline">Platform</span>
+          <h2>Built on Domo Pro-Code</h2>
+          <p>Domo Pro-Code apps are custom HTML/JS/CSS applications that run inside Domo&rsquo;s environment with direct access to platform APIs.</p>
+        </div>
+        <div class="card-grid domo-stagger">
+          <div class="card-h">
+            <div class="card-h-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <div class="card-h-body">
+              <h3>Vanilla JavaScript</h3>
+              <p>No framework, no build step, no bundler. All logic lives in a single
+                <code style="font-size: 13px; background: rgba(153,204,238,0.12); padding: 2px 6px; border-radius: 3px;">app.js</code>
+                file. Open the source and you see exactly what runs — nothing hidden, nothing compiled.</p>
+            </div>
+          </div>
+          <div class="card-h">
+            <div class="card-h-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <div class="card-h-body">
+              <h3>Tailwind CSS v4 via CDN</h3>
+              <p>Styling is applied via the Tailwind v4 browser CDN — utility classes directly in HTML, no PostCSS, no <code style="font-size: 13px; background: rgba(153,204,238,0.12); padding: 2px 6px; border-radius: 3px;">tailwind.config.js</code>, just copy-paste.</p>
+            </div>
+          </div>
+          <div class="card-h">
+            <div class="card-h-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+              </svg>
+            </div>
+            <div class="card-h-body">
+              <h3>Domo Data API</h3>
+              <p>The lunch menu is fetched live from a mapped Domo dataset using
+                <code style="font-size: 13px; background: rgba(153,204,238,0.12); padding: 2px 6px; border-radius: 3px;">domo.get('/data/v1/lunchMenu')</code>.
+                The dataset alias is declared in <code style="font-size: 13px; background: rgba(153,204,238,0.12); padding: 2px 6px; border-radius: 3px;">manifest.json</code>.</p>
+            </div>
+          </div>
+          <div class="card-h">
+            <div class="card-h-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+              </svg>
+            </div>
+            <div class="card-h-body">
+              <h3>Deploy with Domo CLI</h3>
+              <p>Local development via any HTTP server (no proxy needed for static content). Production deploys with
+                <code style="font-size: 13px; background: rgba(153,204,238,0.12); padding: 2px 6px; border-radius: 3px;">domo publish</code>
+                — no CI/CD pipeline, no Docker, no cloud config.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Version History Timeline — numbered colored circles + pill tags -->
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-header centered">
+          <span class="section-overline">Version History</span>
+          <h2>How It Was Built</h2>
+          <p>Three releases from initial prototype to polished production app.</p>
+        </div>
+
+        <div class="timeline-v2 domo-stagger">
+          <div class="timeline-v2-item">
+            <div class="timeline-v2-num blue">v0.0.1</div>
+            <div class="timeline-v2-card">
+              <h4>Initial Release &mdash; Feb 3, 2026</h4>
+              <p>Built the foundational single-page app with the Tools catalog (7 tools), tooltip and expandable access info modes, Help &amp; Resources section, and the live Lunch Menu tab with Domo Data API integration.</p>
+              <div class="timeline-pills">
+                <span class="timeline-pill">Tools Catalog</span>
+                <span class="timeline-pill">Tooltip Mode</span>
+                <span class="timeline-pill">Expandable Mode</span>
+                <span class="timeline-pill">Domo Data API</span>
+                <span class="timeline-pill">CSS Variables</span>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-v2-item">
+            <div class="timeline-v2-num orange">v1.0.0</div>
+            <div class="timeline-v2-card">
+              <h4>Professional Design Refinement &mdash; Feb 4, 2026</h4>
+              <p>Overhauled the visual design to a professional, information-dense layout. Removed colorful gradients in favor of a neutral palette. Standardized all card layouts to horizontal with consistent icon sizing and typography hierarchy.</p>
+              <div class="timeline-pills">
+                <span class="timeline-pill">Compact Layout</span>
+                <span class="timeline-pill">Neutral Palette</span>
+                <span class="timeline-pill">Horizontal Cards</span>
+                <span class="timeline-pill">Onboarding Checklist</span>
+                <span class="timeline-pill">Production Ready</span>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-v2-item">
+            <div class="timeline-v2-num amber">v1.0.1</div>
+            <div class="timeline-v2-card">
+              <h4>User Display &amp; Checklist Simplification &mdash; Feb 4, 2026</h4>
+              <p>Added personalized user display in the top-right header using the Domo User API with graceful fallbacks. Simplified checklist architecture to session-only state, removed AppDB dependency, and set the popup to start minimized by default.</p>
+              <div class="timeline-pills">
+                <span class="timeline-pill">Domo User API</span>
+                <span class="timeline-pill">User Display</span>
+                <span class="timeline-pill">Session State</span>
+                <span class="timeline-pill">Minimized Default</span>
+                <span class="timeline-pill">No AppDB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- File Architecture — simplified 2-file layout -->
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-header centered">
+          <span class="section-overline">Architecture</span>
+          <h2>Two Files. That&rsquo;s It.</h2>
+          <p>The entire app lives in two files. No build step, no bundler, no dependencies to install.</p>
+        </div>
+
+        <div class="module-grid domo-stagger">
+          <div class="module-card">
+            <div class="module-card-header">
+              <span class="module-card-name">index.html</span>
+              <span class="module-card-badge">App Shell</span>
+            </div>
+            <div class="module-card-desc">HTML structure, Tailwind CSS via CDN, CSS variables, ryuu.js script tag, and all UI markup for tools, help, and lunch tabs.</div>
+          </div>
+          <div class="module-card">
+            <div class="module-card-header">
+              <span class="module-card-name">app.js</span>
+              <span class="module-card-badge">All Logic</span>
+            </div>
+            <div class="module-card-desc">Tab switching, tooltip/expandable modes, access info lookup, lunch menu fetch &amp; render, user display, onboarding checklist state.</div>
+          </div>
+          <div class="module-card">
+            <div class="module-card-header">
+              <span class="module-card-name">manifest.json</span>
+              <span class="module-card-badge">Config</span>
+            </div>
+            <div class="module-card-desc">Domo app ID, dataset mappings (lunchMenu alias), scopes (appdb), and display settings (fullpage: true).</div>
+          </div>
+          <div class="module-card">
+            <div class="module-card-header">
+              <span class="module-card-name">thumbnail.png</span>
+              <span class="module-card-badge">Required</span>
+            </div>
+            <div class="module-card-desc">App thumbnail shown in Domo Design Studio. Required for publishing — Domo rejects the publish if missing.</div>
+          </div>
+        </div>
+
+        <div class="dep-flow">
+          <div class="dep-flow-title">State Object &mdash; Global in app.js</div>
+          <div class="dep-flow-row">
+            <div class="dep-flow-node orchestrator">state</div>
+            <span class="dep-flow-arrow">&rarr;</span>
+            <div class="dep-flow-node">currentTab: 'tools' | 'help' | 'lunch'</div>
+          </div>
+          <div class="dep-flow-row">
+            <div class="dep-flow-node orchestrator">state</div>
+            <span class="dep-flow-arrow">&rarr;</span>
+            <div class="dep-flow-node">accessMode: 'tooltip' | 'expandable'</div>
+          </div>
+          <div class="dep-flow-row">
+            <div class="dep-flow-node orchestrator">state</div>
+            <span class="dep-flow-arrow">&rarr;</span>
+            <div class="dep-flow-node">tooltipTimeout: null (timer reference)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Flow — lunch menu dataset flow -->
+    <section class="section section-alt">
+      <div class="section-inner">
+        <div class="section-header centered">
+          <span class="section-overline">Data Design</span>
+          <h2>Lunch Menu Data Flow</h2>
+          <p>The app&rsquo;s only external data source is the lunch menu dataset — read-only, fetched on demand when the Lunch tab is opened.</p>
+        </div>
+
+        <div class="data-flow">
+          <div class="data-flow-tiers domo-stagger">
+            <!-- Source -->
+            <div class="data-flow-tier">
+              <div class="data-flow-tier-label write">Source</div>
+              <div class="data-flow-nodes">
+                <div class="data-flow-node">
+                  <div class="data-flow-node-icon orange">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                    </svg>
+                  </div>
+                  <div>Domo Dataset<small>lunchMenu alias in manifest.json</small></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vertical Arrow -->
+            <div class="data-flow-v-arrow">
+              <svg viewBox="0 0 12 24" fill="none"><path d="M6 0v20M2 16l4 4 4-4" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+
+            <!-- Fetch -->
+            <div class="data-flow-tier">
+              <div class="data-flow-tier-label sync">Fetch</div>
+              <div class="data-flow-nodes">
+                <div class="data-flow-node">
+                  <div class="data-flow-node-icon blue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+                    </svg>
+                  </div>
+                  <div>domo.get()<small>/data/v1/lunchMenu — on tab open</small></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vertical Arrow -->
+            <div class="data-flow-v-arrow">
+              <svg viewBox="0 0 12 24" fill="none"><path d="M6 0v20M2 16l4 4 4-4" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+
+            <!-- Render -->
+            <div class="data-flow-tier">
+              <div class="data-flow-tier-label read">Render</div>
+              <div class="data-flow-branch">
+                <div class="data-flow-node">
+                  <div class="data-flow-node-icon teal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/><line x1="15" y1="9" x2="15" y2="21"/>
+                    </svg>
+                  </div>
+                  <div>renderLunchItems()<small>Grouped by category with icons</small></div>
+                </div>
+                <div class="data-flow-node">
+                  <div class="data-flow-node-icon teal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </div>
+                  <div>User API<small>domo.get('/domo/users/v1/{userId}')</small></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="data-flow-metrics">
+            <div class="data-flow-metric">
+              <div class="data-flow-metric-value" data-value="1">1</div>
+              <div class="data-flow-metric-label">Dataset</div>
+            </div>
+            <div class="data-flow-metric">
+              <div class="data-flow-metric-value" data-value="4">4</div>
+              <div class="data-flow-metric-label">Schema Fields</div>
+            </div>
+            <div class="data-flow-metric">
+              <div class="data-flow-metric-value" data-value="0">0</div>
+              <div class="data-flow-metric-label">Writes (read-only)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature Pipeline — user journey through the app -->
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-header centered">
+          <span class="section-overline">User Journey</span>
+          <h2>A Typical Session</h2>
+          <p>From page load to everything you need — the complete user flow through The Quartermaster.</p>
+        </div>
+
+        <div class="pipeline-dark">
+          <div class="pipeline domo-stagger">
+            <div class="pipeline-stage">
+              <div class="pipeline-icon-box blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
+                </svg>
+              </div>
+              <h4>App Loads</h4>
+              <p>User name fetched via Domo User API</p>
+            </div>
+            <div class="pipeline-connector">
+              <svg viewBox="0 0 32 12" fill="none"><path d="M0 6h28M24 2l4 4-4 4" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="pipeline-stage">
+              <div class="pipeline-icon-box orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+              </div>
+              <h4>Browse Tools</h4>
+              <p>7 tools with direct links &amp; descriptions</p>
+            </div>
+            <div class="pipeline-connector">
+              <svg viewBox="0 0 32 12" fill="none"><path d="M0 6h28M24 2l4 4-4 4" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="pipeline-stage">
+              <div class="pipeline-icon-box teal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <h4>Get Access Info</h4>
+              <p>Tooltip or expandable — user&rsquo;s choice</p>
+            </div>
+            <div class="pipeline-connector">
+              <svg viewBox="0 0 32 12" fill="none"><path d="M0 6h28M24 2l4 4-4 4" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="pipeline-stage">
+              <div class="pipeline-icon-box amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 2h1l3 7-1.5 1.5A11 11 0 0 0 12 17h.01l1.5-1.5L21 19v1a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-2z"/>
+                </svg>
+              </div>
+              <h4>Check Lunch</h4>
+              <p>Live menu from Domo dataset</p>
+            </div>
+            <div class="pipeline-connector">
+              <svg viewBox="0 0 32 12" fill="none"><path d="M0 6h28M24 2l4 4-4 4" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="pipeline-stage">
+              <div class="pipeline-icon-box slate">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+              </div>
+              <h4>Track Progress</h4>
+              <p>Onboarding checklist (session state)</p>
+            </div>
+          </div>
+          <div class="pipeline-callout">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Zero configuration &middot; Open and go
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <p><strong>The Quartermaster</strong> &mdash; Essential Tools &amp; Resources for Domo Employees &nbsp;&middot;&nbsp; v1.0.1 &nbsp;&middot;&nbsp;
+      Built on Domo</p>
+  </footer>
+
+  <script>
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+
+      const tab = document.getElementById('tab-' + tabName);
+      if (tab) tab.classList.add('active');
+
+      const btns = document.querySelectorAll('.tab-btn');
+      const tabIndex = { overview: 0, onboarding: 1, making: 2 };
+      if (btns[tabIndex[tabName]]) {
+        btns[tabIndex[tabName]].classList.add('active');
+        btns[tabIndex[tabName]].setAttribute('aria-selected', 'true');
+      }
+
+      // Re-trigger stagger animations
+      tab.querySelectorAll('.domo-stagger > *').forEach(el => {
+        el.style.animation = 'none';
+        el.offsetHeight;
+        el.style.animation = '';
+      });
+
+      animateCounters(tab);
+    }
+
+    function animateValue(el, start, end, duration) {
+      const startTime = performance.now();
+      const suffix = el.dataset.suffix || '';
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOutExpo = 1 - Math.pow(2, -10 * progress);
+        const current = start + (end - start) * easeOutExpo;
+        el.textContent = Math.round(current).toLocaleString() + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+        else el.textContent = end.toLocaleString() + suffix;
+      }
+      requestAnimationFrame(update);
+    }
+
+    function animateCounters(container) {
+      const root = container || document;
+      root.querySelectorAll('[data-value]').forEach(el => {
+        const value = parseInt(el.dataset.value);
+        if (!isNaN(value)) animateValue(el, 0, value, 1200);
+      });
+    }
+
+    window.addEventListener('load', () => {
+      animateCounters(document.getElementById('tab-overview'));
+    });
+  </script>
+</body>
+
+</html>
